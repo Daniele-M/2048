@@ -10,8 +10,9 @@ class Board:
         self.game = game
         self.game_over = False
         self.b = np.zeros((GAME_SQUARE, GAME_SQUARE))
-        self.b[0][2] = 16
         self.font = pg.font.SysFont('arial', CELL_SIZE//5)
+        self.previus_move = np.zeros((GAME_SQUARE, GAME_SQUARE))
+        self.current_move = np.zeros((GAME_SQUARE, GAME_SQUARE))
 
     def draw_lines(self):
         n = GAME_SQUARE
@@ -115,8 +116,7 @@ class Board:
             	    self.b[cell] = 2
                 else:
                     self.b[cell] = 4
-        print(self.b)
-
+        
 
     def get_available_cells(self):
         index = []
@@ -128,3 +128,6 @@ class Board:
 
     def end_game(self):
         self.game_over = True
+
+    def move_back(self):
+        pass
