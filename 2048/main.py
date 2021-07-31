@@ -16,6 +16,7 @@ class Game:
         self.clock = pg.time.Clock()
         self.running = True
 
+
     def new(self):
         self.score = 0
 
@@ -45,6 +46,10 @@ class Game:
                     self.direction = "up"
                 if event.key == pg.K_DOWN:
                     self.direction = "down"
+                if DEBUGGING:
+                    if event.type == pg.KEYUP:
+                        if event.key == pg.K_RETURN:
+                            self.board.move_back()
 
     def update(self):
         if self.board.game_over:
