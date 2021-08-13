@@ -48,7 +48,7 @@ class Game:
                     self.direction = "down"
                 if DEBUGGING:
                     if event.type == pg.KEYUP:
-                        if event.key == pg.K_RETURN:
+                        if event.key == pg.K_q:
                             self.board.move_back()
 
     def update(self):

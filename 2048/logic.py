@@ -12,7 +12,6 @@ class Board:
         self.b = np.zeros((GAME_SQUARE, GAME_SQUARE))
         self.font = pg.font.SysFont('arial', CELL_SIZE//5)
         self.previus_move = np.zeros((GAME_SQUARE, GAME_SQUARE))
-        self.current_move = np.zeros((GAME_SQUARE, GAME_SQUARE))
 
     def draw_lines(self):
         n = GAME_SQUARE
@@ -42,6 +41,7 @@ class Board:
                     self.display(text, rect)
 
     def move_cells(self, direction):
+        temp = np.copy(self.b)
         moved = False
         if direction == "left":
             for row in range(GAME_SQUARE):
@@ -102,6 +102,7 @@ class Board:
                             moved = True
 
         if moved:
+            self.previus_move = temp
             self.spawn_cells(1)
             moved = False
 
@@ -116,7 +117,7 @@ class Board:
             	    self.b[cell] = 2
                 else:
                     self.b[cell] = 4
-        
+
 
     def get_available_cells(self):
         index = []
@@ -130,4 +131,4 @@ class Board:
         self.game_over = True
 
     def move_back(self):
-        pass
+        self.b = self.previus_move
