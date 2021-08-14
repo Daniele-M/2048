@@ -43,70 +43,44 @@ class Board:
     def move_cells(self, direction):
         temp = np.copy(self.b)
         moved = False
-        if direction == "left":
-            for row in range(GAME_SQUARE):
-                for col in range(GAME_SQUARE):
-                    if self.b[row][col] != 0:
-                        temp_col = col
-                        while temp_col - 1 >= 0 and self.b[row][temp_col-1] == 0:
-                            self.b[row][temp_col-1] = self.b[row][temp_col]
-                            self.b[row][temp_col] = 0
-                            moved = True
-                            temp_col -= 1
-                        if temp_col != 0 and self.b[row][temp_col-1] == self.b[row][temp_col]:
-                            self.b[row][temp_col-1] *= 2
-                            self.b[row][temp_col] = 0
-                            moved = True
-        if direction == "right":
-            for row in range(GAME_SQUARE):
-                for col in range(GAME_SQUARE-1, -1, -1):
-                    if self.b[row][col] != 0:
-                        temp_col = col
-                        while temp_col + 1 <= GAME_SQUARE - 1 and self.b[row][temp_col+1] == 0:
-                            self.b[row][temp_col+1] = self.b[row][temp_col]
-                            self.b[row][temp_col] = 0
-                            moved = True
-                            temp_col += 1
-                        if temp_col != GAME_SQUARE - 1 and self.b[row][temp_col+1] == self.b[row][temp_col]:
-                            self.b[row][temp_col+1] *= 2
-                            self.b[row][temp_col] = 0
-                            moved = True
+        skip = False
 
-        if direction == "up":
-            for col in range(GAME_SQUARE):
-                for row in range(GAME_SQUARE):
-                    if self.b[row][col] != 0:
-                        temp_row = row
-                        while temp_row - 1 >= 0 and self.b[temp_row-1][col] == 0:
-                            self.b[temp_row-1][col] = self.b[temp_row][col]
-                            self.b[temp_row][col] = 0
+        for i in range(GAME_SQUARE):
+            if direction in "leftright":
+                vec = self.b[i, :]
+                if direction == "right":
+                    vec = vec[::-1]
+            else:
+                vec = self.b[:, i]
+                if direction == "down":
+                    vec = vec[::-1]
+            for j in range(GAME_SQUARE):
+                if vec[j] != 0:
+                    temp_j = j
+                    while temp_j > 0 and vec[temp_j-1] == 0:
+                        temp_j -= 1
+                        moved = True
+                    if j != temp_j:
+                        vec[temp_j] = vec[j]
+                        vec[j] = 0
+
+                    if not skip:
+                        if temp_j > 0 and vec[temp_j-1] == vec[temp_j]:
+                            vec[temp_j-1] *= 2
+                            vec[temp_j] = 0
+                            skip = True
                             moved = True
-                            temp_row -= 1
-                        if temp_row != 0 and self.b[temp_row-1][col] == self.b[temp_row][col]:
-                            self.b[temp_row-1][col] *= 2
-                            self.b[temp_row][col] = 0
-                            moved = True
-        if direction == "down":
-            for col in range(GAME_SQUARE):
-                for row in range(GAME_SQUARE-1, -1, -1):
-                    if self.b[row][col] != 0:
-                        temp_row = row
-                        while temp_row + 1 <= GAME_SQUARE - 1 and self.b[temp_row+1][col] == 0:
-                            self.b[temp_row+1][col] = self.b[temp_row][col]
-                            self.b[temp_row][col] = 0
-                            moved = True
-                            temp_row += 1
-                        if temp_row != GAME_SQUARE - 1 and self.b[temp_row+1][col] == self.b[temp_row][col]:
-                            self.b[temp_row+1][col] *= 2
-                            self.b[temp_row][col] = 0
-                            moved = True
+                    else:
+                        skip = False
+
+
 
         if moved:
             self.previus_move = temp
-            self.spawn_cells(1)
+            self.spawn_cells()
             moved = False
 
-    def spawn_cells(self, num):
+    def spawn_cells(self, num=1):
         free_cells = self.get_available_cells()
         if free_cells == []:
             self.end_game()

@@ -37,7 +37,7 @@ class Game:
             if event.type == pg.QUIT:
                 self.playing = False
                 self.running = False
-            if event.type == pg.KEYUP:
+            if event.type == pg.KEYDOWN:
                 if event.key == pg.K_LEFT:
                     self.direction = "left"
                 if event.key == pg.K_RIGHT:
@@ -47,7 +47,7 @@ class Game:
                 if event.key == pg.K_DOWN:
                     self.direction = "down"
                 if DEBUGGING:
-                    if event.type == pg.KEYUP:
+                    if event.type == pg.KEYDOWN:
                         if event.key == pg.K_q:
                             self.board.move_back()
 
