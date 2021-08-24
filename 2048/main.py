@@ -58,6 +58,8 @@ class Game:
                     self.direction = "up"
                 if event.key == pg.K_DOWN:
                     self.direction = "down"
+                if event.key == pg.K_ESCAPE:
+                    self.playing = False
                 if DEBUGGING:
                     if event.type == pg.KEYDOWN:
                         if event.key == pg.K_q:

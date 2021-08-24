@@ -30,13 +30,13 @@ class Board:
 
     def draw_lines(self):
         n = self.game_square
-        pg.draw.line(self.game.screen, LINE_COLOR, (0, MARGIN), (WIDTH, MARGIN), 5)
+        mult = 1
         #Orizzontal lines
-        for i in range(1, n):
-            pg.draw.line(self.game.screen, LINE_COLOR, (0, MARGIN + i * WIDTH/n), (WIDTH, MARGIN + i * WIDTH/n), 5)
+        for i in range(0, n+1):
+            pg.draw.line(self.game.screen, LINE_COLOR, (0, MARGIN + i * WIDTH/n), (WIDTH, MARGIN + i * WIDTH/n), mult*5)
         #Vertical lines
-        for i in range(1, n):
-            pg.draw.line(self.game.screen, LINE_COLOR, (i * WIDTH/n, MARGIN), (i * WIDTH/n, MARGIN + HEIGHT), 5)
+        for i in range(0, n):
+            pg.draw.line(self.game.screen, LINE_COLOR, (i * WIDTH/n, MARGIN), (i * WIDTH/n, MARGIN + HEIGHT), mult*5)
 
     def display(self, text, font_size, x, y):
         # x,y of the center
